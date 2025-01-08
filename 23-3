@@ -1,0 +1,60 @@
+method 1.
+public static <E extends Comparable<E>> void quicksort(E[] list) {
+    quicksort(list, 0, list.length - 1);
+}
+
+private static <E extends Comparable<E>> void quicksort(E[] list, int low, int high) {
+    if (low < high) {
+        int pi = partition(list, low, high);
+        quicksort(list, low, pi - 1);
+        quicksort(list, pi + 1, high);
+    }
+}
+
+private static <E extends Comparable<E>> int partition(E[] list, int low, int high) {
+    E pivot = list[high];
+    int i = (low - 1);
+    for (int j = low; j < high; j++) {
+        if (list[j].compareTo(pivot) <= 0) {
+            i++;
+            E temp = list[i];
+            list[i] = list[j];
+            list[j] = temp;
+        }
+    }
+    E temp = list[i + 1];
+    list[i + 1] = list[high];
+    list[high] = temp;
+    return i + 1;
+}
+
+
+method 2.
+public static <E> void quicksort(E[] list, Comparator<? super E> comparator) {
+    quicksort(list, 0, list.length - 1, comparator);
+}
+
+private static <E> void quicksort(E[] list, int low, int high, Comparator<? super E> comparator) {
+    if (low < high) {
+        int pi = partition(list, low, high, comparator);
+        quicksort(list, low, pi - 1, comparator);
+        quicksort(list, pi + 1, high, comparator);
+    }
+}
+
+private static <E> int partition(E[] list, int low, int high, Comparator<? super E> comparator) {
+    E pivot = list[high];
+    int i = (low - 1);
+    for (int j = low; j < high; j++) {
+        if (comparator.compare(list[j], pivot) <= 0) {
+            i++;
+            E temp = list[i];
+            list[i] = list[j];
+            list[j] = temp;
+        }
+    }
+    E temp = list[i + 1];
+    list[i + 1] = list[high];
+    list[high] = temp;
+    return i + 1;
+}
